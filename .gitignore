@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+# 根据你的虚拟环境名称调整，比如我这里用的是 'venv'
+venv/ 
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Media Processing
+processed_media/ # 存储提取的音频、脚本、输出视频等
+uploads/         # 用户上传的原始视频文件
+temp/            # 临时文件
+
+# Env vars
+.env
