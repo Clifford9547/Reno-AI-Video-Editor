@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ strings.app_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <script>
+        // 将 Jinja2 传递的 'strings' 字典转换为 JavaScript 对象
+        // '| tojson' 过滤器会将 Python 字典安全地转换为 JSON 字符串，防止 XSS
+        window.appStrings = {{ strings | tojson }}; 
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ strings.app_title }}</h1>
+        <p>{{ strings.app_slogan }}</p>
+
+        <div class="status-messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <p id="global-status-text" class="status-text"></p>
+        </div>
+
+        <section id="upload-section" class="card active-section">
+            <h2>{{ strings.section_upload_title }}</h2>
+            <form id="upload-form" enctype="multipart/form-data">
+                <label for="videoFile">{{ strings.file_input_label }}</label>
+                <input type="file" name="videoFile" id="videoFile" accept="video/*" required>
+                <button type="submit" id="upload-btn">{{ strings.upload_button_text }}</button>
+            </form>
+            <div id="upload-progress-container" class="progress-bar-container" style="display: none;">
+                <div class="progress-bar" id="upload-progress-bar" style="width: 0%;"></div>
+            </div>
+        </section>
+
+        <section id="script-section" class="card disabled-section">
+            <h2>{{ strings.section_script_title }}</h2>
+            <p>{{ strings.script_intro_text }}</p>
+            <textarea id="original-script-text" rows="10" readonly></textarea>
+            <button id="confirm-script-btn" class="button">{{ strings.confirm_script_button_text }}</button>
+        </section>
+
+        <section id="ai-settings-section" class="card disabled-section">
+            <h3 class="text-lg mt-4 mb-2">AI API 设置</h3>
+
+            <div class="setting-group">
+            <label for="llmProvider">选择大模型提供者</label>
+            <select id="llmProvider">
+                <option value="openai">OpenAI (chat/completions)</option>
+                <option value="gemini">Google Gemini (generateContent)</option>
+                <option value="claude">Anthropic Claude</option>
+                <option value="custom">自定义 API 地址</option>
+            </select>
+            </div>
+
+            <div class="setting-group" id="customApiUrlGroup" style="display: none;">
+            <label for="apiUrl">API 请求地址</label>
+            <input type="text" id="apiUrl" placeholder="https://your-api.com/endpoint">
+            </div>
+
+            <div class="setting-group">
+            <label for="apiMethod">请求方法</label>
+            <select id="apiMethod">
+                <option value="POST">POST</option>
+                <option value="GET">GET</option>
+            </select>
+            </div>
+
+            <div class="setting-group">
+            <label for="apiKey">API 密钥</label>
+            <input type="password" id="apiKey" placeholder="请输入 API 密钥">
+            </div>
+
+            <h2>{{ strings.section_ai_settings_title }}</h2>
+            <div class="setting-group">
+                <label for="theme">{{ strings.label_theme }}</label>
+                <select id="theme">
+                    <option value="joyful">{{ strings.option_joyful }}</option>
+                    <option value="sad">{{ strings.option_sad }}</option>
+                    <option value="informal">{{ strings.option_informal }}</option>
+                    <option value="formal">{{ strings.option_formal }}</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="targetAudience">{{ strings.label_target_audience }}</label>
+                <input type="text" id="targetAudience" placeholder="{{ strings.placeholder_target_audience }}">
+            </div>
+            <div class="setting-group">
+                <label for="videoPurpose">{{ strings.label_video_purpose }}</label>
+                <input type="text" id="videoPurpose" placeholder="{{ strings.placeholder_video_purpose }}">
+            </div>
+            <button id="generate-ai-script-btn" class="button">{{ strings.generate_ai_script_button_text }}</button>
+            <div id="ai-script-progress-container" class="progress-bar-container" style="display: none;">
+                <div class="progress-bar" id="ai-script-progress-bar" style="width: 0%;"></div>
+            </div>
+        </section>
+
+        <section id="ai-script-preview-section" class="card disabled-section">
+            <h2>{{ strings.section_ai_script_preview_title }}</h2>
+            <p>{{ strings.ai_script_intro_text }}</p>
+            <textarea id="ai-generated-script-text" rows="15" readonly></textarea>
+            <button id="edit-ai-script-btn" class="button" style="display: none;">{{ strings.edit_ai_script_button_text }}</button>
+            <button id="apply-effects-btn" class="button">{{ strings.apply_effects_button_text }}</button>
+            <div id="video-gen-progress-container" class="progress-bar-container" style="display: none;">
+                <div class="progress-bar" id="video-gen-progress-bar" style="width: 0%;"></div>
+            </div>
+        </section>
+        
+        <section id="final-video-section" class="card disabled-section">
+            <h2>{{ strings.section_final_video_title }}</h2>
+            <p>{{ strings.final_video_success_text }}</p>
+            <a id="download-video-link" href="#" class="button" download>{{ strings.download_video_button_text }}</a>
+            <button id="start-over-btn" class="button">{{ strings.start_over_button_text }}</button>
+        </section>
+
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

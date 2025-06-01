@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/ # 根据你的虚拟环境名称调整
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+app/lib/ffmpeg-master-latest-win64-gpl-shared/
+
+# Media Processing
+# 忽略所有 'processed_media' 文件夹内的内容，但保留文件夹本身
+**/processed_media/*
+!**/processed_media/.gitkeep
+
+# 忽略所有 'uploads' 文件夹内的内容，但保留文件夹本身
+**/uploads/*
+!**/uploads/.gitkeep
+
+# 临时文件
+temp/
+
+# 环境变量
+.env
+
+# 测试文件
+# 注意：请确认以下测试文件是否确实是临时的或个人脚本，
+# 如果是项目共享的核心测试，则不应在此处忽略。
+effectte.py
+pttest.py
+test_insert_effects.py
